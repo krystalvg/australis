@@ -50,15 +50,47 @@
   animation: fadeIn 1s forwards, bounce 1s infinite !important;
 }
 
+.option {
+  text-align: center;
+  margin: 10px 0;
+}
+
+#options-container {
+  display: flex;
+  justify-content: center; /* Center the options */
+  gap: 20px; /* Add spacing between options */
+  opacity: 1; /* Always take up space */
+}
+
+.option {
+  padding: 5px 10px;
+  background-color: #222; /* Optional styling */
+  color: #fff; /* Optional styling */
+  border-radius: 5px; /* Optional styling */
+  cursor: pointer; /* Make it look clickable */
+  visibility: hidden; /* Keep the space but hide the option initially */
+  opacity: 0; /* Start hidden visually */
+  transition: opacity 1s ease, transform 0.5s ease; /* Smooth reveal */
+  transform: translateY(10px); /* Start slightly offset for a smooth entrance */
+}
+
+.option.visible {
+  visibility: visible; /* Make the option visible */
+  opacity: 1; /* Fade in */
+  transform: translateY(0); /* Reset position */
+}
+
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }</style><script role="script" id="twine-user-script" type="text/twine-javascript">let currentIndex = 0; // Tracks revealed elements
+
 document.addEventListener("click", () => {
   const nextElement = document.querySelector(".revealable:not(.visible)");
+  const options = document.querySelectorAll(".option");
   const indicator = document.getElementById("click-indicator");
   currentIndex++;
-  
+ 
   if (nextElement) {
     nextElement.classList.add("visible");    
     indicator.classList.remove("visible"); // Hide indicator while the text updates
@@ -74,13 +106,27 @@ document.addEventListener("click", () => {
       indicator.innerHTML = "<span>&#x25BC;</span>";
     }
   }
+  else
+  {
+    options.forEach((option, index) => {
+      setTimeout(() => {
+        option.classList.add("visible");
+        option.style.animationDelay = `${index * 0.5}s`; // Slight overlap
+      }, index * 500); // Adjust timing here for overlapping effect
+    });
+  }
 });</script><tw-passagedata pid="1" name="Untitled Passage" tags="" position="1075,500" size="100,100">&lt;div id=&quot;click-indicator&quot;&gt;Click anywhere to begin 
 	&lt;span&gt;&amp;#x25BC;&lt;/span&gt;
 &lt;/div&gt;
 &lt;div class=&quot;revealable hidden&quot;&gt;The aurora flickers...&lt;/div&gt;
 &lt;div class=&quot;revealable hidden&quot;&gt;A ghostly ship appears.&lt;/div&gt;
 &lt;div class=&quot;revealable hidden&quot;&gt;You step closer, holding your breath.&lt;/div&gt;
-&lt;div class=&quot;revealable hidden&quot;&gt;The deck creaks underfoot...&lt;/div&gt;</tw-passagedata></tw-storydata>
+&lt;div class=&quot;revealable hidden&quot;&gt;The deck creaks underfoot...&lt;/div&gt;
+
+&lt;div id=&quot;options-container&quot; class=&quot;hidden&quot;&gt;
+  &lt;div class=&quot;option&quot;&gt;[[Embark-&gt;Embark Passage]]&lt;/div&gt;
+  &lt;div class=&quot;option&quot;&gt;[[Wait... Where am I?-&gt;Wait Passage]]&lt;/div&gt;
+&lt;/div&gt;</tw-passagedata><tw-passagedata pid="2" name="Wait Passage" tags="" position="1200,625" size="100,100"></tw-passagedata><tw-passagedata pid="3" name="Embark Passage" tags="" position="1075,625" size="100,100"></tw-passagedata></tw-storydata>
 <script title="Twine engine code" data-main="harlowe">(function(){"use strict";
 var require,define;!function(){var e={},r={};require=function(i){var n=e[i];return n&&(r[i]=n[1].apply(void 0,n[0].map(require)),e[i]=void 0),r[i]},(define=function(r,i,n){if("function"==typeof r)return r();e[r]=[i,n]}).amd=!0}();/*!
  * https://github.com/paulmillr/es6-shim
